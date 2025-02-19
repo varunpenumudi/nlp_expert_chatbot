@@ -2,16 +2,19 @@ from langchain_community.vectorstores import FAISS
 from langchain_community.embeddings.fastembed import FastEmbedEmbeddings
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_ollama import ChatOllama
-
+from load_vecdb import download_vecdb
 
 # --------------------------------------------------
 # LOAD VECTOR DATABASE
 # --------------------------------------------------
+download_vecdb()
+print("Loading Fiass Index")
 vectorstore = FAISS.load_local(
     'vecdb_contents', 
     embeddings=FastEmbedEmbeddings(),
     allow_dangerous_deserialization=True
 )
+print("Loaded Fiass Index")
 
 
 # --------------------------------------------------
