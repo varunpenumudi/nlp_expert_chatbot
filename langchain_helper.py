@@ -8,13 +8,13 @@ from load_vecdb import download_vecdb
 # LOAD VECTOR DATABASE
 # --------------------------------------------------
 download_vecdb()
-print("Loading Fiass Index")
+print("Loading Faiss Index")
 vectorstore = FAISS.load_local(
     'vecdb_contents', 
     embeddings=FastEmbedEmbeddings(),
     allow_dangerous_deserialization=True
 )
-print("Loaded Fiass Index")
+print("Loaded Faiss Index")
 
 
 # --------------------------------------------------
@@ -63,11 +63,13 @@ chain = template | llm
 # --------------------------------------------------
 def get_resp(query: str, conversation = []) -> str:
     related_papers = search_vecdb(query=query)
+    print(f"Retrived Papers Related to query: {query}")
     resp = chain.invoke({
         "conversation": conversation,
         "context": related_papers,
         "query": query
     })
+    print(f"Generated Response to query: {query}")
     return resp.content
 
 
