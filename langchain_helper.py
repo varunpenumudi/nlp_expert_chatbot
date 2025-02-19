@@ -2,6 +2,8 @@ from langchain_community.vectorstores import FAISS
 from langchain_community.embeddings.fastembed import FastEmbedEmbeddings
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_ollama import ChatOllama
+from langchain_groq import ChatGroq
+import os
 from load_vecdb import download_vecdb
 
 # --------------------------------------------------
@@ -40,8 +42,11 @@ def search_vecdb(query: str) -> str:
 # --------------------------------------------------
 # Ollama and Prompt Template
 # --------------------------------------------------
-llm = ChatOllama(model='llama3.2')
-print("LLAMA STARTED.....")
+if not os.getenv("GROQ_API_KEY"):
+    os.environ['GROQ_API_KEY'] = input("Enter API Token: ")
+
+llm = ChatGroq(model='llama-3.3-70b-versatile')
+print("Groq LLAMA STARTED.....")
 
 system_prompt = """
 You are an intelligent AI  chatbot that serves as an expert in a Natural Language Processing domain, capable of answering complex queries 
